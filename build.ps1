@@ -29,6 +29,7 @@ Performs a dry run.
 Skips restoring of packages.
 .PARAMETER ScriptArgs
 Remaining arguments are added here.
+.PARAMETER VersionModifier
 
 .LINK
 https://cakebuild.net
@@ -42,6 +43,7 @@ Param(
     [string]$Configuration,
     [ValidateSet("Quiet", "Minimal", "Normal", "Verbose", "Diagnostic")]
     [string]$Verbosity,
+    [string]$VersionModifier,
     [switch]$ShowDescription,
     [Alias("WhatIf", "Noop")]
     [switch]$DryRun,
@@ -250,6 +252,7 @@ if ($Configuration) { $cakeArguments += "-configuration=$Configuration" }
 if ($Verbosity) { $cakeArguments += "-verbosity=$Verbosity" }
 if ($ShowDescription) { $cakeArguments += "-showdescription" }
 if ($DryRun) { $cakeArguments += "-dryrun" }
+if ($VersionModifier) { $cakeArguments += "-versionModifier=$VersionModifier" }
 $cakeArguments += $ScriptArgs
 
 # Start Cake

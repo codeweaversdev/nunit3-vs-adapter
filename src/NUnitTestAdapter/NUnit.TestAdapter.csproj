@@ -8,8 +8,6 @@
     <!-- For testing and debugging-->
     <TargetFrameworks>net35;netcoreapp2.1</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <SourceLinkOriginUrl>https://github.com/nunit/nunit3-vs-adapter</SourceLinkOriginUrl>
-    <SourceLinkCreate>true</SourceLinkCreate>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
@@ -46,6 +44,10 @@
     <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="1.1.2" />
     <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="15.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\codeweaversworld\tools\DistributedTestRunner\DistributedTestRunner.Agent.Api\DistributedTestRunner.Agent.Api.csproj" />
   </ItemGroup>
 
   <Target Name="PreventTestPlatformObjectModelCopyLocal" AfterTargets="ResolveReferences">

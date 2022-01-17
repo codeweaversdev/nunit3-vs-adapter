@@ -21,6 +21,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Visible>False</Visible>
     </None>
+    <None Include="$(MSBuildThisFileDirectory)DistributedTestRunner.Agent.Api.dll">
+      <Link>DistributedTestRunner.Agent.Api.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>False</Visible>
+    </None>
     <None Include="$(MSBuildThisFileDirectory)nunit.engine.core.dll">
       <Link>nunit.engine.core.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

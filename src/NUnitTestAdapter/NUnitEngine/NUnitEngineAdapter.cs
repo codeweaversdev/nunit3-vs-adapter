@@ -24,6 +24,7 @@
 using System;
 using System.IO;
 using System.Xml;
+using DistributedTestRunner.Agent.Api;
 using NUnit.Engine;
 using NUnit.Engine.Services;
 // We use an alias so that we don't accidentally make
@@ -83,9 +84,33 @@ namespace NUnit.VisualStudio.TestAdapter.NUnitEngine
             return new NUnitResults(Runner.Explore(filter));
         }
 
+        public class TestListenerAdapter : ITestEventListenerCopied
+        {
+            private readonly ITestEventListener _listener;
+
+            public TestListenerAdapter(ITestEventListener listener)
+            {
+                _listener = listener;
+            }
+
+            public void OnTestEvent(string report)
+            {
+                _listener.OnTestEvent(report);
+            }
+        }
+
         public NUnitResults Run(ITestEventListener listener, TestFilter filter)
         {
-            return new NUnitResults(Runner.Run(listener, filter));
+            if (File.Exists(@"D:\disable.txt"))
+                return new NUnitResults(Runner.Run(listener, filter));
+
+            var client = new TestRunnerClient("http://localhost:5000");
+            var resultsStr = client.RunTests(package.FullName, new TestListenerAdapter(listener), null);
+            var doc = new XmlDocument();
+            doc.LoadXml(resultsStr);
+            var resultsXml = doc.DocumentElement;
+
+            return new NUnitResults(resultsXml);
         }
 
         public T GetService<T>()

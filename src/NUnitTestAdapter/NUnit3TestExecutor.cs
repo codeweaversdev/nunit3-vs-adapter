@@ -34,6 +34,7 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
 using NUnit.Engine;
 using NUnit.VisualStudio.TestAdapter.Dump;
 using NUnit.VisualStudio.TestAdapter.NUnitEngine;
+using File = NUnit.VisualStudio.TestAdapter.Dump.File;
 
 namespace NUnit.VisualStudio.TestAdapter
 {
@@ -220,7 +221,8 @@ namespace NUnit.VisualStudio.TestAdapter
             if (!Debugger.IsAttached)
                 Debugger.Launch();
 #endif
-
+            if (System.IO.File.Exists(@"D:\debugger.txt"))
+                Debugger.Launch();
             string actionText = Debugger.IsAttached ? "Debugging " : "Running ";
             string selectionText = filter == null || filter == TestFilter.Empty ? "all" : "selected";
             TestLog.Info(actionText + selectionText + " tests in " + assemblyPath);
