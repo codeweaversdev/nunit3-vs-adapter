@@ -22,6 +22,7 @@
 // ***********************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using DistributedTestRunner.Agent.Api;
@@ -105,7 +106,20 @@ namespace NUnit.VisualStudio.TestAdapter.NUnitEngine
                 return new NUnitResults(Runner.Run(listener, filter));
 
             var client = new TestRunnerClient("http://localhost:5000");
-            var resultsStr = client.RunTests(package.FullName, new TestListenerAdapter(listener), null);
+
+            var testCases = new List<string>();
+
+            var filterXml = new XmlDocument();
+            filterXml.LoadXml(filter.Text);
+            var filterNodeList = filterXml.SelectNodes(".//test");
+
+            if (filterNodeList != null)
+            {
+                foreach (XmlElement testNode in filterNodeList)
+                    testCases.Add(testNode.InnerText);
+            }
+
+            var resultsStr = client.RunTests(package.FullName, new TestListenerAdapter(listener), testCases);
             var doc = new XmlDocument();
             doc.LoadXml(resultsStr);
             var resultsXml = doc.DocumentElement;
